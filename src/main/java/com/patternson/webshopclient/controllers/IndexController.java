@@ -1,6 +1,5 @@
 package com.patternson.webshopclient.controllers;
 
-import com.fasterxml.classmate.GenericType;
 import com.patternson.webshopclient.model.ArticleDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 
 @Slf4j
 @Controller
