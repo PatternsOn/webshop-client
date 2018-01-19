@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleDTO {
+public class  ArticleDTO {
 
 
     @Size(min = 2, max = 20)

@@ -14,7 +14,17 @@ import org.springframework.web.client.RestTemplate;
 public class IndexController {
     private static final String BASE_URI = "http://localhost:8080/api/v1/articles/";
 
-    @RequestMapping({"", "/", "/index"})
+
+
+//    @GetMapping("/")
+//    String index(Principal principal) {
+//        return principal != null ? "home/homeSignedIn" : "home/homeNotSignedIn";
+//    }
+
+
+
+
+    @RequestMapping({"", "/", "/index", "/home"})
     public String getIndexPage(Model model) {
         log.debug("Getting Index page");
 
