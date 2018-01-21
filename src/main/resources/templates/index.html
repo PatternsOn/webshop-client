@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <title th:text="#{index.page.title}">Page Title</title>
@@ -17,17 +17,18 @@
 <div th:replace="fragments/header :: header">Page Header</div>
 
 <div class="container">
-    <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
-
     <div th:if="${not #lists.isEmpty(articles)}"></div>
     <h2>Articles</h2>
     <table class="table table-striped">
         <tr>
-            <td>Name</td>
-            <td>Description</td>
-            <td>Price</td>
-            <td>Company</td>
-            <td>Stock</td>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Company</th>
+            <th>Stock</th>
+            <th sec:authorize="hasRole('USER_')">Buy</th>
+            <th sec:authorize="hasRole('ADMIN_')">Edit</th>
+            <th sec:authorize="hasRole('ADMIN_')">Delete</th>
         </tr>
         <tr th:each="article : ${articles}">
             <td th:text="${article.name}"></td>
@@ -35,8 +36,12 @@
             <td th:text="${article.price > 0 ? 'SEK ' + article.price : 'FREE'}"></td>
             <td th:text="${article.company}"></td>
             <td th:text="${article.stock}"></td>
+            <td sec:authorize="hasRole('USER_')"><span class="glyphicon glyphicon-shopping-cart"></span></td>
+            <td sec:authorize="hasRole('ADMIN_')"><span class="glyphicon glyphicon-pencil"></span></td>
+            <td sec:authorize="hasRole('ADMIN_')"><span class="glyphicon glyphicon-trash"></span></td>
         </tr>
     </table>
+    <button type="button" class="btn btn-default" sec:authorize="hasRole('ADMIN_')">New article</button>
 </div>
 
 

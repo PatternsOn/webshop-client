@@ -1,29 +1,32 @@
 package com.patternson.webshopclient.controllers;
 
 import com.patternson.webshopclient.model.ArticleDTO;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@Slf4j
+import javax.validation.Valid;
+
 @Controller
 public class ArticleController {
 
-    private static final String BASE_URI = "http://localhost:8080/api/v1/articles/";
+    @RequestMapping("/addarticle")
+    public String articleForm(Model model) {
 
-//
-//    @RequestMapping({"", "/", "/index"})
-//    public String getIndexPage(Model model) {
-//        log.debug("Getting article page");
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        ResponseEntity<ArticleDTO[]> articleDTOResponseEntity = restTemplate.getForEntity(BASE_URI, ArticleDTO[].class);
-//        model.addAttribute("articles", articleDTOResponseEntity.getBody());
-//
-//        return "article";
-//    }
+        model.addAttribute("articleDTO", new ArticleDTO());
+
+        return "articleform";
+    }
+
+    @RequestMapping(value = "/doaddarticle", method = RequestMethod.POST)
+    public String doAddArticle(@Valid ArticleDTO articleDTO, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "articleform";
+        }
+
+        return "redirect:index";
+    }
 }

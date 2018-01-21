@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Controller
 public class IndexController {
+
     private static final String BASE_URI = "http://localhost:8080/api/v1/articles/";
 
 
@@ -20,8 +21,6 @@ public class IndexController {
 //    String index(Principal principal) {
 //        return principal != null ? "home/homeSignedIn" : "home/homeNotSignedIn";
 //    }
-
-
 
 
     @RequestMapping({"", "/", "/index", "/home"})
@@ -34,6 +33,12 @@ public class IndexController {
         model.addAttribute("articles", articleDTOResponseEntity.getBody());
 
         return "index";
+    }
+
+    @RequestMapping("secured")
+    public String secured(){
+        return "secured";
+    }
 
 //        @RequestMapping("/admin")
 //        public String getCustomers(Model model) {
@@ -43,7 +48,7 @@ public class IndexController {
 //            return "admin";
 //        }
 
-    }
+
 
 //    @Override
 ////    public ArticleDTO findById(Long l) {

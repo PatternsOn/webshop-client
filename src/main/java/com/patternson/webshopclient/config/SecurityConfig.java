@@ -12,39 +12,33 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/", "/home","/css/**", "/js/**", "/images/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .loginPage("/login").defaultSuccessUrl("/").permitAll()
-            .and()
-                .logout()
+
+        http.authorizeRequests().antMatchers("/", "/index/**", "/home").permitAll()
+                .and().authorizeRequests().antMatchers("/login","logout").permitAll()
+                .and().authorizeRequests().antMatchers("/static/css/**","/js/**", "/images/**").permitAll()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
+                .and().logout()
                 .deleteCookies("remove")
                 .invalidateHttpSession(true)
                 .logoutUrl("/logout")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .permitAll();
+                .logoutSuccessUrl("/logout-success")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
-            .and()
-                .withUser("admin").password("password").roles("ADMIN");
-
-
-
-
-        // Bygg om för att prata med backend.
-        // Behöver token
-        // Måste sparas i session
+                .withUser("admin").password("admin").roles("ADMIN")
+                .and().withUser("user").password("user").roles( "USER");
     }
+
+
+
+
 
 }
