@@ -15,30 +15,29 @@ public class IndexController {
 
     private static final String BASE_URI = "http://localhost:8080/api/v1/articles/";
 
-
-
-//    @GetMapping("/")
-//    String index(Principal principal) {
-//        return principal != null ? "home/homeSignedIn" : "home/homeNotSignedIn";
-//    }
-
-
-    @RequestMapping({"", "/", "/index", "/home"})
+    @RequestMapping({"", "/", "/index"})
     public String getIndexPage(Model model) {
         log.debug("Getting Index page");
 
         RestTemplate restTemplate = new RestTemplate();
-
         ResponseEntity<ArticleDTO[]> articleDTOResponseEntity = restTemplate.getForEntity(BASE_URI, ArticleDTO[].class);
+
         model.addAttribute("articles", articleDTOResponseEntity.getBody());
 
         return "index";
     }
 
     @RequestMapping("secured")
-    public String secured(){
+    public String secured() {
+        log.debug("Getting secured page");
         return "secured";
     }
+}
+
+    //    @GetMapping("/")
+//    String index(Principal principal) {
+//        return principal != null ? "home/homeSignedIn" : "home/homeNotSignedIn";
+//    }
 
 //        @RequestMapping("/admin")
 //        public String getCustomers(Model model) {
@@ -65,5 +64,4 @@ public class IndexController {
 ////
 ////    }
 
-}
 

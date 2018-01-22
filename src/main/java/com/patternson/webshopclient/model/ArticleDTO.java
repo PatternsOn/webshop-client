@@ -17,7 +17,7 @@ import java.math.BigDecimal;
  *
  * Created by Tobias Pettersson 20180116
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
