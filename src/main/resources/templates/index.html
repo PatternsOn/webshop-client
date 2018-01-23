@@ -21,6 +21,7 @@
     <h2>Articles</h2>
     <table class="table table-striped">
         <tr>
+            <th>id</th>
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
@@ -31,17 +32,19 @@
             <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
         </tr>
         <tr th:each="article : ${articles}">
+            <td th:text="${article.id}"></td>
             <td th:text="${article.name}"></td>
             <td th:text="${article.description}"></td>
             <td th:text="${article.price > 0 ? 'SEK ' + article.price : 'FREE'}"></td>
             <td th:text="${article.company}"></td>
             <td th:text="${article.stock}"></td>
             <td sec:authorize="hasRole('ROLE_USER')"><span class="glyphicon glyphicon-shopping-cart"></span></td>
-            <td sec:authorize="hasRole('ROLE_ADMIN')"><span class="glyphicon glyphicon-pencil"></span></td>
-            <td sec:authorize="hasRole('ROLE_ADMIN')"><span class="glyphicon glyphicon-trash"></span></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{'/article/' + ${article.id} + '/articleform'}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
         </tr>
     </table>
-    <button type="button" class="btn btn-default" sec:authorize="hasRole('ADMIN_')">New article</button>
+    <a th:href="@{/articleform}" sec:authorize="hasRole('ROLE_ADMIN')">New article</a>
+
 </div>
 
 

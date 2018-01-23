@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class  ArticleDTO {
+    private Long id;
 
     @NotEmpty
     @Size(min = 2, max = 50)

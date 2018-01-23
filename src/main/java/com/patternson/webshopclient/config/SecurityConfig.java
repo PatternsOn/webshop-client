@@ -11,10 +11,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.debug(true);
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.debug(true);
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -26,7 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/index").permitAll()
                 .and().logout()
                 .logoutUrl("/index")
-//                .logoutSuccessUrl("/logout-success")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
         http.csrf().disable();
     }

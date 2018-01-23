@@ -13,12 +13,10 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class IndexController {
 
-    private static final String BASE_URI = "http://localhost:8080/api/v1/articles/";
+    private static final String BASE_URI = "http://localhost:8080/api/v1/articles";
 
     @RequestMapping({"", "/", "/index"})
     public String getIndexPage(Model model) {
-        log.debug("Getting Index page");
-
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<ArticleDTO[]> articleDTOResponseEntity = restTemplate.getForEntity(BASE_URI, ArticleDTO[].class);
 
@@ -33,35 +31,5 @@ public class IndexController {
         return "secured";
     }
 }
-
-    //    @GetMapping("/")
-//    String index(Principal principal) {
-//        return principal != null ? "home/homeSignedIn" : "home/homeNotSignedIn";
-//    }
-
-//        @RequestMapping("/admin")
-//        public String getCustomers(Model model) {
-//            RestTemplate restTemplate = new RestTemplate();
-//            ResponseEntity<Customer[]> customers = restTemplate.getForEntity("http://localhost:8080/api/customers", Customer[].class);
-//            model.addAttribute("customers", customers.getBody());
-//            return "admin";
-//        }
-
-
-
-//    @Override
-////    public ArticleDTO findById(Long l) {
-////
-////        RestTemplate restTemplate = new RestTemplate();
-////        ArticleDTO articleDTO = restTemplate.getForObject(BASE_URI + l, ArticleDTO.class);
-////
-////        log.info(articleDTO.toString());
-////
-////
-////        System.out.println("The object " + articleDTO);
-////
-////        return articleDTO;
-////
-////    }
 
 
