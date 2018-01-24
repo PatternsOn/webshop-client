@@ -38,10 +38,10 @@
             <td th:text="${article.stock}"></td>
             <td sec:authorize="hasRole('ROLE_USER')"><a href="#" class="text-muted"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
             <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{'/article/' + ${article.id} + '/articleupdateform'}" class="text-muted"><span class="glyphicon glyphicon-pencil"></span></a></td>
-            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" class="text-muted"><span class="glyphicon glyphicon-trash"></span></a></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{'/article/' + ${article.id} + '/delete'}" class="text-muted"><span class="glyphicon glyphicon-trash"></span></a></td>
         </tr>
     </table>
-    <a th:href="@{/article/new}" sec:authorize="hasRole('ROLE_ADMIN')" class="text-muted">New article</a>
+    <a th:href="@{/article/articlecreateform}" sec:authorize="hasRole('ROLE_ADMIN')" class="text-muted">New article</a>
 
 </div>
 
