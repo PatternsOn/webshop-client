@@ -45,18 +45,26 @@ public class ArticleController {
 
     @PostMapping("/createarticle")
     public String createArticle(@ModelAttribute ArticleDTO articleDTO) {
-
-        System.out.println("Inne i create article: " + articleDTO.getName());
         restTemplate.postForObject(BASE_URI, articleDTO, ArticleDTO.class);
 
         return "redirect:/index/";
     }
 
-    @GetMapping("/article/{id}/delete")
-    public String deleteArticleById(@PathVariable String id) {
+    @GetMapping("/article/{id}/confirmdelete")  // Stoppa in id istället
+    public String confirmDeleteArticleById(@ModelAttribute ArticleDTO articleDTO, Model model) {
+        model.addAttribute("article", articleDTO);
 
-        // Lägg till confirm. Skapa en confirm page som tar med en products id.
-        System.out.println("Inne i delete");
+        return "article/confirmdelete";
+    }
+
+    @GetMapping("/article/canceldelete")
+    public String cancelDelete() {
+
+        return "redirect:/index/";
+    }
+
+    @PostMapping("/article/{id}/delete")
+    public String deleteArticleById(@PathVariable String id) {
         restTemplate.delete(BASE_URI + id, id);
         return "redirect:/index/";
     }
