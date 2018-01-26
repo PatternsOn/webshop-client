@@ -17,27 +17,21 @@
 <div th:replace="fragments/header :: header">Page Header</div>
 
 <div class="container">
-    <div th:if="${not #lists.isEmpty(articles)}"></div>
+    <div th:if="${not #lists.isEmpty(cartitems)}"></div>
     <h2>Cart</h2>
     <table class="table table-striped">
         <tr>
             <th>Name</th>
-            <th>Description</th>
             <th>Price</th>
-            <th>Company</th>
-            <th>Stock</th>
-            <th sec:authorize="hasRole('ROLE_USER')">Buy</th>
+            <th>Quantity</th>
         </tr>
-        <tr th:each="article : ${articles}">
-            <td th:text="${article.name}"></td>
-            <td th:text="${article.description}"></td>
-            <td th:text="${article.price > 0 ? 'SEK ' + article.price : 'FREE'}"></td>
-            <td th:text="${article.company}"></td>
-            <td th:text="${article.stock}"></td>
-            <td sec:authorize="hasRole('ROLE_USER')"><a href="#" class="text-muted"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
+        <tr th:each="cartitem : ${cartitems}">
+            <td th:text="${cartitem.name}"></td>
+            <td th:text="${cartitem.price > 0 ? 'SEK ' + cartitem.price : 'FREE'}"></td>
+            <td th:text="${cartitem.quantity}"></td>
         </tr>
     </table>
-    <a th:href="@{/article/articlecreateform}" sec:authorize="hasRole('ROLE_ADMIN')" class="text-muted">New article</a>
+    <button type="button" class="btn btn-default">Order</button><span th:text="${'   ' +totalprice + ' SEK'}"></span>
 
 </div>
 

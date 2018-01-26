@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,18 @@ public class CartController {
     private RestTemplate restTemplate = new RestTemplate();
 
     List<CartItem> cartItems = new ArrayList<>();
+
+    @GetMapping("/cart") // Håller på här
+    public String getAllCartItems(Model model) {
+
+//        int quantity = getCartItemQuantity();
+
+        model.addAttribute("quantity", getCartItemQuantity());
+        model.addAttribute("cartitems", cartItems);
+        model.addAttribute("totalprice", getTotalPrice());
+
+        return "cart/cart";
+    }
 
     @GetMapping("/cart/{id}/addcartitem")
     public String addCartItem(@PathVariable String id) {
@@ -32,8 +45,9 @@ public class CartController {
         if (checkIfCartItemExist(cartItem)) {
             for (CartItem c : cartItems) {
                 if (c.getArticleId() == cartItem.getArticleId()) {
-                    System.out.println("Add quantity by one if the article all ready exist"); // Här blir det fel
+                    System.out.println("Add quantity by one if the article all ready exist");
                     c.setQuantity(c.getQuantity() + 1);
+                    c.setPrice(c.getPrice().multiply(new BigDecimal(c.getQuantity())));
                 }
             }
         } else {
@@ -61,6 +75,16 @@ public class CartController {
     }
 
 
+    public BigDecimal getTotalPrice() {
+        BigDecimal result = new BigDecimal(0);
+
+        for (CartItem c : cartItems) {
+            result = result.add(c.getPrice());
+        }
+
+        return result;
+    }
+    // todo get total cart price
 
 
     private Boolean checkIfCartItemExist(CartItem cartItem) {
@@ -86,8 +110,8 @@ public class CartController {
         CartItem cartItem = new CartItem();
         cartItem.setArticleId(articleDTO.getId());
         cartItem.setName(articleDTO.getName());
-        cartItem.setPrice(articleDTO.getPrice());
         cartItem.setQuantity(1);
+        cartItem.setPrice(articleDTO.getPrice());
 
         return cartItem;
     }
@@ -95,6 +119,16 @@ public class CartController {
 
 
     /*
+
+    BigDecimal itemCost  = BigDecimal.ZERO;
+    BigDecimal totalCost = BigDecimal.ZERO;
+
+    public BigDecimal calculateCost(int itemQuantity, BigDecimal itemPrice)
+    {
+        itemCost  = itemPrice.multiply(new BigDecimal(itemQuantity));
+        totalCost = totalCost.add(itemCost);
+        return totalCost;
+    }
 
     @PostMapping("article/{id}")
     public String updateArticle(@PathVariable String id, @ModelAttribute ArticleDTO articleDTO){
