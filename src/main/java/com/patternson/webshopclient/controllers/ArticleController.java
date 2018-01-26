@@ -40,6 +40,9 @@ public class ArticleController {
     public String updateArticle(@PathVariable String id, @ModelAttribute ArticleDTO articleDTO){
         restTemplate.put(BASE_URI + "/{id}", articleDTO, articleDTO.getId());
 
+
+        System.out.println("Inside update: " + articleDTO.getName());
+
         return "redirect:/index/";
     }
 
