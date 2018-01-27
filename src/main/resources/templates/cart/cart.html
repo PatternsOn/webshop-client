@@ -24,11 +24,15 @@
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
+            <td><span class="glyphicon glyphicon-minus text-muted"></span></td>
+            <td><span class="glyphicon glyphicon-plus text-muted"></span></td>
         </tr>
         <tr th:each="cartitem : ${cartitems}">
             <td th:text="${cartitem.name}"></td>
             <td th:text="${cartitem.price > 0 ? 'SEK ' + cartitem.price : 'FREE'}"></td>
             <td th:text="${cartitem.quantity}"></td>
+            <td><a th:href="@{'cart/' + ${cartitem.articleId} + '/removequantity'}"><span class="glyphicon glyphicon-minus text-muted"></span></a></td>
+            <td><a th:href="@{'cart/' + ${cartitem.articleId} + '/addquantity'}"><span class="glyphicon glyphicon-plus text-muted"></span></a></td>
         </tr>
     </table>
     <button type="button" class="btn btn-default">Order</button><span th:text="${'   ' +totalprice + ' SEK'}"></span>

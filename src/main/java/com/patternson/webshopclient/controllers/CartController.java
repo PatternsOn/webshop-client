@@ -6,7 +6,9 @@ import com.patternson.webshopclient.model.CartItem;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -55,12 +57,10 @@ public class CartController {
             cartItems.add(cartItem);
         }
 
-
         // Log på uppdateringarna
         for (CartItem c : cartItems) {
             System.out.println("Article name: " + c.getName() + " - - " + "qty: " + c.getQuantity());
         }
-
         return "redirect:/index/";
     }
 
@@ -114,6 +114,33 @@ public class CartController {
         cartItem.setPrice(articleDTO.getPrice());
 
         return cartItem;
+    }
+
+    @RequestMapping("cart/{id}/addquantity")
+    public String addQuantityByOne(@PathVariable Long id, @ModelAttribute CartItem cartItem) {
+
+        System.out.println("first check add");
+        for (CartItem c: cartItems){
+            if (c.getArticleId() == id) {
+                System.out.println("Inne i add cartitem nr: " + id);
+                c.setQuantity(c.getQuantity() + 1);
+            }
+        }
+        return "redirect:/cart";
+    }
+
+    @RequestMapping("cart/{id}/removequantity")
+    public String removeQuantityByOne(@PathVariable Long id, @ModelAttribute CartItem cartItem) {
+        System.out.println("first check remove");
+        for (CartItem c: cartItems) {
+            if (c.getArticleId() == id) {
+                System.out.println("Inne i remove cartitem nr: " + id);
+                if (c.getQuantity() > 0) {
+                    c.setQuantity(c.getQuantity() - 1);
+                }
+            }
+        }
+        return "redirect:/cart";
     }
 
 

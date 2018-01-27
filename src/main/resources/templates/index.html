@@ -36,9 +36,12 @@
             <td th:text="${article.price > 0 ? 'SEK ' + article.price : 'FREE'}"></td>
             <td th:text="${article.company}"></td>
             <td th:text="${article.stock}"></td>
-            <td sec:authorize="hasRole('ROLE_USER')"><a href="#" th:href="@{'/cart/' + ${article.id} + '/addcartitem'}" class="text-muted"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
-            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{'/article/' + ${article.id} + '/articleupdateform'}" class="text-muted"><span class="glyphicon glyphicon-pencil"></span></a></td>
-            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{'/article/' + ${article.id} + '/confirmdelete'}" class="text-muted"><span class="glyphicon glyphicon-trash"></span></a></td>
+            <td sec:authorize="hasRole('ROLE_USER')"><a href="#" th:href="@{'/cart/' + ${article.id} + '/addcartitem'}"
+                                                        class="text-muted"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{'/article/' + ${article.id} + '/articleupdateform'}"
+                                                         class="text-muted"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{'/article/' + ${article.id} + '/confirmdelete'}"
+                                                         class="text-muted"><span class="glyphicon glyphicon-trash"></span></a></td>
         </tr>
     </table>
     <a th:href="@{/article/articlecreateform}" sec:authorize="hasRole('ROLE_ADMIN')" class="text-muted">New article</a>
