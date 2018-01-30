@@ -6,10 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 
 
 @Slf4j
@@ -47,7 +49,19 @@ public class ArticleController {
     }
 
     @PostMapping("/createarticle")
-    public String createArticle(@ModelAttribute ArticleDTO articleDTO) {
+    public String createArticle(@Valid @ModelAttribute("article") ArticleDTO articleDTO, BindingResult bindingResult) { // Testar Bindingresukt och validation
+
+        if(bindingResult.hasErrors()){
+
+            System.out.println("Inne i error check");
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+
+            return "article/articlecreateform";
+        }
+
+
         restTemplate.postForObject(BASE_URI, articleDTO, ArticleDTO.class);
 
         return "redirect:/index/";
