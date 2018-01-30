@@ -39,11 +39,18 @@ public class ArticleController {
     }
 
     @PostMapping("article/{id}")
-    public String updateArticle(@PathVariable String id, @ModelAttribute ArticleDTO articleDTO){
+    public String updateArticle(@Valid @ModelAttribute("article") ArticleDTO articleDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+
+            System.out.println("Inne i error check");
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+
+            return "article/articleupdateform";
+        }
+
         restTemplate.put(BASE_URI + "/{id}", articleDTO, articleDTO.getId());
-
-
-        System.out.println("Inside update: " + articleDTO.getName());
 
         return "redirect:/index/";
     }
