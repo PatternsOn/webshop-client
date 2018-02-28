@@ -10,7 +10,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -32,19 +31,16 @@ public class CartController {
 
     @GetMapping("/cart/{id}/addcartitem")
     public String addCartItem(@PathVariable Long id) {
-
         CartItem cartItem = getCartItemById(id);
 
         if (checkIfCartItemExist(cartItem)) {
             for (CartItem c : cartItems) {
                 if (c.getArticleId() == cartItem.getArticleId()) {
-                    System.out.println("Add quantity by one if the article all ready exist");
                     c.setQuantity(c.getQuantity() + 1);
                     c.setPrice(cartItem.getPrice().multiply(new BigDecimal(c.getQuantity())));
                 }
             }
         } else {
-            System.out.println("Add article to cart");
             cartItems.add(cartItem);
         }
 
@@ -53,16 +49,11 @@ public class CartController {
 
     @RequestMapping("cart/{id}/addquantity")
     public String addQuantityByOne(@PathVariable Long id) {
-
         CartItem cartItem = getCartItemById(id);
 
-        System.out.println("Kolla om cartitem har värde: " + cartItem.getName());
-
-        System.out.println("first check add");
         for (CartItem c: cartItems){
             if (c.getArticleId() == id) {
-                System.out.println("Inne i add cartitem nr: " + id);
-                c.setQuantity(c.getQuantity() + 1); // Lägg till metod för att räkna ut pris
+                c.setQuantity(c.getQuantity() + 1);
                 c.setPrice(cartItem.getPrice().multiply(new BigDecimal(c.getQuantity())));
             }
         }
@@ -73,10 +64,8 @@ public class CartController {
     public String removeQuantityByOne(@PathVariable Long id) {
         CartItem cartItem = getCartItemById(id);
 
-        System.out.println("first check remove");
         for (CartItem c: cartItems) {
             if (c.getArticleId() == id) {
-                System.out.println("Inne i remove cartitem nr: " + id);
                 if (c.getQuantity() > 0) {
                     c.setQuantity(c.getQuantity() - 1); // Lägg till metod för att räkna ut pris
                     c.setPrice(cartItem.getPrice().multiply(new BigDecimal(c.getQuantity())));
@@ -92,14 +81,6 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    /*
-    @PostMapping("/article/{id}/delete")
-    public String deleteArticleById(@PathVariable String id) {
-        restTemplate.delete(BASE_URI + id, id);
-        return "redirect:/index/";
-    }
-     */
-
     public int getCartItemQuantity() {
         int result = 0;
 
@@ -110,7 +91,7 @@ public class CartController {
         return result;
     }
 
-    public BigDecimal getTotalPrice() {
+    private BigDecimal getTotalPrice() {
         BigDecimal result = new BigDecimal(0);
 
         for (CartItem c : cartItems) {
@@ -122,12 +103,10 @@ public class CartController {
 
     private Boolean checkIfCartItemExist(CartItem cartItem) {
         if (cartItems.isEmpty()) {
-            System.out.println("Checking if the cart is empty");
             return false;
         }
         for (CartItem c : cartItems) {
             if (c.getArticleId() == cartItem.getArticleId()) {
-                System.out.println("Checking if article exist in cart");
                 return true;
             }
         }

@@ -21,7 +21,7 @@ public class ArticleController {
     private static final String BASE_URI = "http://localhost:8080/api/v1/articles/";
     private RestTemplate restTemplate = new RestTemplate();
 
-    // Visar en produkts parametrar i ett formulär
+    // Visar en produkts värden i ett formulär
     @GetMapping("/article/{id}/articleupdateform")
     public String showArticleInUpdateFormById(@PathVariable String id, Model model){
         ArticleDTO articleDTO = restTemplate.getForObject(BASE_URI + id, ArticleDTO.class);
